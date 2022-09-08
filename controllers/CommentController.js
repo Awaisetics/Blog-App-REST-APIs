@@ -18,7 +18,7 @@ const postComment = async (req, res, next) => {
             },
 
         }, { new: true })
-        res.status(201).json({ blog, comment, message: "Comment Added" })
+        res.status(201).json({ blog, message: "Comment Added" })
     }
     catch (error) {
         next({ status: 500, message: error.message })

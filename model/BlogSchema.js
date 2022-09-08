@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const commentss = require('../model/CommentSchema')
+const comment = require('../model/CommentSchema')
 const BlogSchema = mongoose.Schema({
     title: String,
     content: String,
@@ -7,7 +7,8 @@ const BlogSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users'
     },
-    comments: [commentss],
+    tags : [],
+    comments: [comment],
     postedAt: {
         type: Date,
         default: Date.now

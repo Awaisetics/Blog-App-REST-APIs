@@ -20,6 +20,7 @@ const authMiddleWare = (req , res , next) => {
 }
 
 router.get('/blogs/all', authMiddleWare, blogController.getAllBlogs);
+router.get('/blog/:id', authMiddleWare, blogController.getBlog);
 router.get('/blogs/myblogs', authMiddleWare , blogController.getMyBlogs);
 router.post('/blog/create', authMiddleWare , blogController.create);
 router.put('/blog/comment/add', authMiddleWare, commentController.postComment);

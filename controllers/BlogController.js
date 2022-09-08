@@ -13,6 +13,16 @@ const getAllBlogs = async (req, res, next) => {
     }
 };
 
+const getBlog = async (req, res, next) => {
+    try {
+        const blog = await Blog.findById(req.params.id).populate('authorDetail', '-email -password');
+        res.json({ blog });
+    }
+    catch (error) {
+        next({ status: 404, message: error.message })
+    }
+};
+
 const getMyBlogs = async (req , res , next) => {
     const id = req.user.id;
     try {
@@ -35,6 +45,7 @@ const create = async (req , res , next) => {
     const data = {
         title : req.body.title,
         content : req.body.content,
+        tags : req.body.tags,
         authorDetail : req.user.id,
     }
     try {
@@ -63,7 +74,8 @@ const update = async (req , res , next) => {
         const blog = await Blog.findByIdAndUpdate(id , {
             $set : {
                 title : req.body.title,
-                content : req.body.content
+                content : req.body.content,
+                tags: req.body.tags
             }
         }, {new : true})
         res.status(201).json({ blog , message: "Record Updated" })
@@ -88,7 +100,7 @@ const destroy = async (req , res , next) => {
     }
 };
 
-module.exports = { getAllBlogs, create, update, destroy, getMyBlogs }
+module.exports = { getAllBlogs, create, update, destroy, getMyBlogs, getBlog }
 
 
 
