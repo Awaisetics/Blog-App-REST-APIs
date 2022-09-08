@@ -5,7 +5,7 @@ const { addBlogValidation , updateBlogValidation} = require('../validations/Blog
 
 const getAllBlogs = async (req, res, next) => {
     try {
-        const blogs = await Blog.find({}).populate('authorDetail', '-email -password').sort({'postedAt' : -1});
+        const blogs = await Blog.find({}).populate('authorDetail', '-email -password').populate('comments.userId' , 'name' ).sort({'postedAt' : -1});
         res.json({ blogs });
     }
     catch (error) {
@@ -15,7 +15,7 @@ const getAllBlogs = async (req, res, next) => {
 
 const getBlog = async (req, res, next) => {
     try {
-        const blog = await Blog.findById(req.params.id).populate('authorDetail', '-email -password');
+        const blog = await Blog.findById(req.params.id).populate('authorDetail', '-email -password').populate('comments.userId', 'name');
         res.json({ blog });
     }
     catch (error) {
@@ -24,6 +24,7 @@ const getBlog = async (req, res, next) => {
 };
 
 const getMyBlogs = async (req , res , next) => {
+    console.log('im here')
     const id = req.user.id;
     try {
         const blogs = await Blog.find({ authorDetail: id }).populate('authorDetail', '-email -password').sort({ 'postedAt': -1 });
